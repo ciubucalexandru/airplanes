@@ -1,9 +1,14 @@
-import { Button, Container, Grid } from '@material-ui/core';
-import React from 'react';
+import { Button, Container, Grid, Input } from '@material-ui/core';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useStyles from './Homepage.styles';
 
-const Homepage: React.FC = () => {
+type Props = {
+    gridSize: number;
+    setGridSize: (size: number) => void;
+}
+
+const Homepage: React.FC<Props> = ({ gridSize, setGridSize }) => {
 
     const classes = useStyles();
 
@@ -11,6 +16,9 @@ const Homepage: React.FC = () => {
         <Container className={classes.container}>
             <Grid container className={classes.gridContainer}>
                 <Grid item md={3}>
+                    <input value={gridSize} onChange={(e) => {
+                        setGridSize(Number(e.target.value))}
+                     } />
                     <Link to="/game" component={Button} className={classes.button}>
                         Play
                     </Link>

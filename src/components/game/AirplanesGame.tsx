@@ -7,10 +7,10 @@ import useStyles from './AirplanesGame.styles';
 import GameCell from './gameCell/GameCell';
 
 const initialGameGrid = [
-    ['', 'A', '', '', '', '', '', '', '', ''],
-    ['A', 'A', 'A', '', '', '', '', '', '', ''],
-    ['', 'A', '', '', '', '', '', '', '', ''],
-    ['A', 'A', 'A', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', '', '', ''],
+    ['', '', '', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', '', '', ''],
     ['', '', '', '', '', '', '', '', '', ''],
@@ -22,7 +22,7 @@ const initialGameGrid = [
 const upToNine = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 const aToJ = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 
-const AirplanesGame: React.FC = () => {
+const AirplanesGame: React.FC<any> = ({ gridSize }) => {
 
     const classes = useStyles();
 
@@ -31,6 +31,16 @@ const AirplanesGame: React.FC = () => {
     const [numberOfClicks, setNumberOfClicks] = useState(0);
     const [canExit, setCanExit] = useState(false);
     const [seconds, setSeconds] = useState(0);
+
+    useEffect(() => {
+        const planeRow = Math.floor(Math.random() * (gridSize - 1));
+        const planeColumn = Math.floor(Math.random() * (gridSize - 1));
+
+        const newGrid = [...initialGameGrid];
+        newGrid[planeRow][planeColumn] = 'A';
+
+        setGameGrid(newGrid);
+    }, [gridSize]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -95,7 +105,7 @@ const AirplanesGame: React.FC = () => {
             <Container className={classes.container}>
                 <Grid container>
                     <Grid item md={1} className={classes.sideColumn}>
-                        {upToNine.map((index) => (
+                        {[...Array(gridSize)].map((val, index) => (
                             <div className={classes.sideIndex}>
                                 {index}
                             </div>
@@ -110,9 +120,9 @@ const AirplanesGame: React.FC = () => {
                             ))}
                         </div>
                         <div className={classes.gameGrid}>
-                            {upToNine.map((rowIndex) => (
+                            {[...Array(gridSize)].map((vale, rowIndex) => (
                                 <div key={`RowNr${rowIndex}`} className={classes.row}>
-                                    {upToNine.map((cellIndex) => (
+                                    {[...Array(gridSize)].map((val, cellIndex) => (
                                         <GameCell
                                             isFinished={isFinished}
                                             character={gameGrid[rowIndex][cellIndex]}

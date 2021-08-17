@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import useStyles from './App.styles';
 
@@ -10,22 +10,23 @@ import ScoresList from './components/scores/ScoresList';
 const App: React.FC = () => {
 
   const classes = useStyles();
+  const [gridSize, setGridSize] = useState(5);
 
   return (
     <div className={classes.topLevelContainer}>
       <BrowserRouter>
         <Switch>
           <Route path="/home">
-            <Homepage />
+            <Homepage gridSize={gridSize} setGridSize={(gs) => setGridSize(gs)} />
           </Route>
           <Route path="/game">
-            <AirplanesGame />
+            <AirplanesGame gridSize={gridSize} />
           </Route>
           <Route path="/scores">
             <ScoresList />
           </Route>
           <Route path="/">
-            <Homepage />
+            <Homepage gridSize={gridSize} setGridSize={(gs) => setGridSize(gs)} />
           </Route>
         </Switch>
       </BrowserRouter>
